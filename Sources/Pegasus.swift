@@ -10,11 +10,13 @@ import UIKit
 
 public protocol PegasusAnimationProtocol {
     func transition(using transitionContext: UIViewControllerContextTransitioning, container: UIView, viewControllers: (from: UIViewController, to: UIViewController), views: (from: UIView, to: UIView), isPresenting: Bool, duration: TimeInterval, completion: @escaping () -> ())
+    func transitionDuration(isPresenting: Bool) -> TimeInterval
     var interactionController: UIPercentDrivenInteractiveTransition? { get set }
 }
 
 open class PegasusAnimation: NSObject, PegasusAnimationProtocol {
     open func transition(using transitionContext: UIViewControllerContextTransitioning, container: UIView, viewControllers: (from: UIViewController, to: UIViewController), views: (from: UIView, to: UIView), isPresenting: Bool, duration: TimeInterval, completion: @escaping () -> ()) { completion() }
+    open func transitionDuration(isPresenting: Bool) -> TimeInterval { return 0.3 }
     open var interactionController: UIPercentDrivenInteractiveTransition?
 }
 
@@ -22,7 +24,6 @@ final public class Pegasus: NSObject {
     
     fileprivate let transitionAnimation: PegasusAnimationProtocol
     fileprivate(set) public var isPresenting = false
-    public var duration: TimeInterval = 0.3
     
     public init(transitionAnimation: PegasusAnimationProtocol) {
         self.transitionAnimation = transitionAnimation
@@ -34,14 +35,14 @@ final public class Pegasus: NSObject {
 extension Pegasus: UIViewControllerAnimatedTransitioning {
     
     public func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
-        return duration
+        return transitionAnimation.transitionDuration(isPresenting: isPresenting)
     }
     
     public func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let container = transitionContext.containerView
         let viewControllers: (from: UIViewController, to: UIViewController) = (transitionContext.viewController(forKey: .from)!, transitionContext.viewController(forKey: .to)!)
         let views: (from: UIView, to: UIView) = (transitionContext.view(forKey: .from) ?? viewControllers.from.view, transitionContext.view(forKey: .to) ?? viewControllers.to.view)
-        transitionAnimation.transition(using: transitionContext, container: container, viewControllers: viewControllers, views: views, isPresenting: isPresenting, duration: duration) {
+        transitionAnimation.transition(using: transitionContext, container: container, viewControllers: viewControllers, views: views, isPresenting: isPresenting, duration: transitionAnimation.transitionDuration(isPresenting: isPresenting)) {
             let cancelled = transitionContext.transitionWasCancelled
             transitionContext.completeTransition(!cancelled)
             
