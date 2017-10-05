@@ -1,6 +1,6 @@
 # Pegasus
 
-[![Language](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://swift.org)
+[![Language](https://img.shields.io/badge/Swift-4-orange.svg?style=flat)](https://swift.org)
 [![Version](https://img.shields.io/cocoapods/v/Pegasus.svg?style=flat)](http://cocoapods.org/pods/Pegasus)
 [![License](https://img.shields.io/cocoapods/l/Pegasus.svg?style=flat)](http://cocoapods.org/pods/Pegasus)
 [![Platform](https://img.shields.io/cocoapods/p/Pegasus.svg?style=flat)](http://cocoapods.org/pods/Pegasus)
@@ -16,7 +16,7 @@ $ pod try Pegasus
 
 - iOS 8.0+
 - Xcode 8.0+
-- Swift 3.0+
+- Swift 4 (Pegasus 2.x), Swift 3 (Pegasus 1.x)
 
 ## Installation
 
